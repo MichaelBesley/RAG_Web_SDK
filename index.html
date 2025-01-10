@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <style>
+        /* 自定义悬浮入口的位置 */
+        position_demo {
+            position: relative;
+            right: 50%;
+            bottom: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ST&P Assistant (demo use only)
+    <div id="position_demo"></div>
+    <script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.1.0-beta.0/libs/oversea/index.js"></script>
+    <script>
+        const cozeWebSDK = new CozeWebSDK.WebChatClient({
+            config: {
+                // 智能体 ID
+                botId: '7456904729336414225',
+            },
+            auth: {
+                //鉴权方式，默认type 为unauth，表示不鉴权；建议设置为 token，表示通过PAT或OAuth鉴权
+                type: 'token',
+                //type 为 token 时，需要设置PAT或OAuth访问密钥
+                token: 'pat_IRWhPaP5nFYKqcSMSBzlAGe98hhjbcnKAJAysAqai6g8sIyuTOnKgLjlCVitEQoL',
+                //访问密钥过期时，使用的新密钥，可以按需设置。
+                onRefreshToken: () => 'pat_82GrrdfNWPMnlcY58r98Rzqiev2s5NyrqCR8Ypbh5hOomzZN4ivb325PZAdZ****',
+            },
+            // 用户信息
+            userInfo: {
+                id: '12345',
+                url: 'https://financialrhythm.com/wp-content/uploads/2018/07/happy-face-300x300.png',
+                nickname: 'You',
+            },
+            ui: {
+                chatBot: {
+                    title: "ST&P Assistant",
+                    uploadable: true,
+                    width: 1200
+                },
+                base: {
+                    icon: 'https://financialrhythm.com/wp-content/uploads/2018/07/happy-face-300x300.png',
+                    layout: 'pc',
+                    zIndex: 1000,
+                    isShow: true,
+                    isNeedClose: true,
+                },
+                asstBtn: {
+                    isNeed: true,
+                },
+
+                footer: {
+                    isShow: true,
+                    expressionText: 'Powered by {{name}}',
+                    linkvars: {
+                        name: {
+                            text: 'A',
+                            link: 'https://www.test.com/'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+
+</html>
