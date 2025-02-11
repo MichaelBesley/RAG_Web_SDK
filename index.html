@@ -17,22 +17,37 @@
     <div id="position_demo"></div>
     <script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.1.0-beta.0/libs/oversea/index.js"></script>
     <script>
+        // 自动生成并存储用户唯一标识
+        (function generateUserId() {
+            let userId = localStorage.getItem('cozeUserId');
+            if (!userId) {
+                // 优先使用现代浏览器支持的crypto API
+                if(crypto && crypto.randomUUID) {
+                    userId = crypto.randomUUID();
+                } else {
+                    // 兼容旧浏览器的UUID生成方案
+                    userId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                        var r = Math.random() * 16 | 0,
+                            v = c === 'x' ? r : (r & 0x3 | 0x8);
+                        return v.toString(16);
+                    });
+                }
+                localStorage.setItem('cozeUserId', userId);
+            }
+            window.cozeUserId = userId;
+        })();
+
         const cozeWebSDK = new CozeWebSDK.WebChatClient({
             config: {
-                // 智能体 ID
                 botId: '7456904729336414225',
             },
             auth: {
-                //鉴权方式，默认type 为unauth，表示不鉴权；建议设置为 token，表示通过PAT或OAuth鉴权
                 type: 'token',
-                //type 为 token 时，需要设置PAT或OAuth访问密钥
                 token: 'pat_v3jVUx89w6MIkiXPDrJ5n2HHcYe91hx6bfGiJkDk6YVaZi56SaSu2cxgYR3Upiqe',
-                //访问密钥过期时，使用的新密钥，可以按需设置。
                 onRefreshToken: () => 'pat_82GrrdfNWPMnlcY58r98Rzqiev2s5NyrqCR8Ypbh5hOomzZN4ivb325PZAdZ****',
             },
-            // 用户信息
             userInfo: {
-                id: '12345',
+                id: window.cozeUserId,  // 使用动态生成的用户ID
                 url: 'https://financialrhythm.com/wp-content/uploads/2018/07/happy-face-300x300.png',
                 nickname: 'You',
             },
@@ -52,7 +67,6 @@
                 asstBtn: {
                     isNeed: true,
                 },
-
                 footer: {
                     isShow: true,
                     expressionText: 'Powered by {{name}}',
@@ -67,6 +81,4 @@
         });
     </script>
 </body>
-
-
 </html>
